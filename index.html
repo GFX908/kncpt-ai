@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KNCPT — AI for Streetwear Designers</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:#0a0a0a;color:#f0f0f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 2rem;border-bottom:0.5px solid #1e1e1e;}
+  .logo{font-size:20px;font-weight:600;letter-spacing:3px;color:#fff;}
+  .badge{font-size:11px;background:#111;border:0.5px solid #2a2a2a;color:#666;padding:4px 14px;border-radius:20px;letter-spacing:1px;}
+  .hero{padding:6rem 2rem 4rem;text-align:center;max-width:680px;margin:0 auto;}
+  .tag{display:inline-block;font-size:11px;letter-spacing:3px;color:#555;text-transform:uppercase;margin-bottom:1.5rem;}
+  h1{font-size:46px;font-weight:600;line-height:1.1;color:#fff;margin-bottom:1.25rem;}
+  h1 span{color:#444;}
+  .sub{font-size:16px;color:#555;line-height:1.8;margin-bottom:2.5rem;max-width:460px;margin-left:auto;margin-right:auto;}
+  .form{display:flex;gap:8px;max-width:400px;margin:0 auto 0.75rem;}
+  .form input{flex:1;background:#111;border:0.5px solid #2a2a2a;color:#fff;padding:13px 16px;border-radius:8px;font-size:14px;outline:none;}
+  .form input::placeholder{color:#444;}
+  .form input:focus{border-color:#444;}
+  .form button{background:#fff;color:#000;border:none;padding:13px 22px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;}
+  .form button:hover{background:#e0e0e0;}
+  .count{font-size:12px;color:#333;margin-bottom:5rem;}
+  #msg{display:none;font-size:13px;color:#555;text-align:center;margin-bottom:0.5rem;}
+  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#161616;border:0.5px solid #161616;border-radius:12px;overflow:hidden;margin:0 2rem 4rem;}
+  .feat{background:#0d0d0d;padding:1.75rem 1.5rem;}
+  .icon{width:34px;height:34px;background:#161616;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:16px;}
+  .feat h3{font-size:13px;font-weight:600;color:#ccc;margin-bottom:6px;letter-spacing:0.5px;}
+  .feat p{font-size:12px;color:#444;line-height:1.7;}
+  .demo{margin:0 2rem 4rem;background:#0d0d0d;border:0.5px solid #1a1a1a;border-radius:12px;padding:1.75rem;}
+  .demo-label{font-size:10px;letter-spacing:3px;color:#333;text-transform:uppercase;margin-bottom:1rem;}
+  .prompt{background:#111;border:0.5px solid #222;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1rem;}
+  .prompt p{font-size:13px;color:#555;}
+  .prompt span{color:#999;}
+  .concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+  .concept{background:#111;border:0.5px solid #1e1e1e;border-radius:8px;padding:14px;}
+  .num{font-size:10px;color:#333;letter-spacing:1px;margin-bottom:6px;}
+  .ctitle{font-size:13px;color:#bbb;font-weight:500;margin-bottom:8px;}
+  .tags{display:flex;gap:4px;flex-wrap:wrap;}
+  .tag-item{font-size:10px;background:#161616;color:#444;padding:3px 9px;border-radius:20px;}
+  footer{text-align:center;padding:2rem;border-top:0.5px solid #161616;}
+  footer p{font-size:12px;color:#2a2a2a;}
+  @media(max-width:600px){
+    h1{font-size:32px;}
+    .features{grid-template-columns:1fr;}
+    .concepts{grid-template-columns:1fr;}
+    .form{flex-direction:column;}
+    .hero{padding:4rem 1.5rem 3rem;}
+    .features,.demo{margin:0 1rem 3rem;}
+  }
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">KNCPT</div>
+  <div class="badge">early access</div>
+</nav>
+<div class="hero">
+  <div class="tag">AI for streetwear designers</div>
+  <h1>Your concept.<br><span>Faster than ever.</span></h1>
+  <p class="sub">Stop spending hours on Pinterest. Type your vibe — Kncpt generates streetwear-specific concepts, graphics direction, and trend insights instantly.</p>
+  <div class="form">
+    <input type="email" id="email" placeholder="your@email.com" />
+    <button onclick="join()">Join waitlist</button>
+  </div>
+  <div id="msg">you're in. we'll hit you when it drops. 🤝</div>
+  <p class="count" id="cnt">join 12 designers already waiting</p>
+</div>
+<div class="features">
+  <div class="feat">
+    <div class="icon">💡</div>
+    <h3>Concept generator</h3>
+    <p>Type your vibe, get 5 streetwear-specific concept directions in seconds. No more blank page.</p>
+  </div>
+  <div class="feat">
+    <div class="icon">📈</div>
+    <h3>Trend radar</h3>
+    <p>Real-time streetwear trends from Instagram, Grailed and TikTok. Not generic fashion noise.</p>
+  </div>
+  <div class="feat">
+    <div class="icon">✍️</div>
+    <h3>Typography match</h3>
+    <p>AI picks fonts that match your concept's energy. No more wasted hours font hunting.</p>
+  </div>
+</div>
+<div class="demo">
+  <div class="demo-label">see it in action</div>
+  <div class="prompt">
+    <p>prompt: <span>"dark Japanese hoodie, rebellious, oversized"</span></p>
+  </div>
+  <div class="concepts">
+    <div class="concept">
+      <div class="num">01</div>
+      <div class="ctitle">Void Samurai</div>
+      <div class="tags">
+        <span class="tag-item">washed black</span>
+        <span class="tag-item">kanji</span>
+        <span class="tag-item">distressed</span>
+      </div>
+    </div>
+    <div class="concept">
+      <div class="num">02</div>
+      <div class="ctitle">Silent Riot</div>
+      <div class="tags">
+        <span class="tag-item">charcoal</span>
+        <span class="tag-item">grunge type</span>
+        <span class="tag-item">raw hem</span>
+      </div>
+    </div>
+    <div class="concept">
+      <div class="num">03</div>
+      <div class="ctitle">Ghost District</div>
+      <div class="tags">
+        <span class="tag-item">off-black</span>
+        <span class="tag-item">minimal</span>
+        <span class="tag-item">tonal print</span>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <p>kncpt.ai — built for designers, by a designer.</p>
+</footer>
+<script>
+  let n=12;
+  function join(){
+    const e=document.getElementById('email').value;
+    if(!e||!e.includes('@')){document.getElementById('email').style.borderColor='#444';return;}
+    n++;
+    document.getElementById('cnt').textContent='join '+n+' designers already waiting';
+    document.getElementById('email').value='';
+    document.getElementById('msg').style.display='block';
+  }
+</script>
+</body>
+</html>
