@@ -5,133 +5,366 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KNCPT — AI for Streetwear Designers</title>
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:#0a0a0a;color:#f0f0f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;}
-  nav{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 2rem;border-bottom:0.5px solid #1e1e1e;}
-  .logo{font-size:20px;font-weight:600;letter-spacing:3px;color:#fff;}
-  .badge{font-size:11px;background:#111;border:0.5px solid #2a2a2a;color:#666;padding:4px 14px;border-radius:20px;letter-spacing:1px;}
-  .hero{padding:6rem 2rem 4rem;text-align:center;max-width:680px;margin:0 auto;}
-  .tag{display:inline-block;font-size:11px;letter-spacing:3px;color:#555;text-transform:uppercase;margin-bottom:1.5rem;}
-  h1{font-size:46px;font-weight:600;line-height:1.1;color:#fff;margin-bottom:1.25rem;}
-  h1 span{color:#444;}
-  .sub{font-size:16px;color:#555;line-height:1.8;margin-bottom:2.5rem;max-width:460px;margin-left:auto;margin-right:auto;}
-  .form{display:flex;gap:8px;max-width:400px;margin:0 auto 0.75rem;}
-  .form input{flex:1;background:#111;border:0.5px solid #2a2a2a;color:#fff;padding:13px 16px;border-radius:8px;font-size:14px;outline:none;}
-  .form input::placeholder{color:#444;}
-  .form input:focus{border-color:#444;}
-  .form button{background:#fff;color:#000;border:none;padding:13px 22px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;}
-  .form button:hover{background:#e0e0e0;}
-  .count{font-size:12px;color:#333;margin-bottom:5rem;}
-  #msg{display:none;font-size:13px;color:#555;text-align:center;margin-bottom:0.5rem;}
-  .features{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#161616;border:0.5px solid #161616;border-radius:12px;overflow:hidden;margin:0 2rem 4rem;}
-  .feat{background:#0d0d0d;padding:1.75rem 1.5rem;}
-  .icon{width:34px;height:34px;background:#161616;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:16px;}
-  .feat h3{font-size:13px;font-weight:600;color:#ccc;margin-bottom:6px;letter-spacing:0.5px;}
-  .feat p{font-size:12px;color:#444;line-height:1.7;}
-  .demo{margin:0 2rem 4rem;background:#0d0d0d;border:0.5px solid #1a1a1a;border-radius:12px;padding:1.75rem;}
-  .demo-label{font-size:10px;letter-spacing:3px;color:#333;text-transform:uppercase;margin-bottom:1rem;}
-  .prompt{background:#111;border:0.5px solid #222;border-radius:8px;padding:1rem 1.25rem;margin-bottom:1rem;}
-  .prompt p{font-size:13px;color:#555;}
-  .prompt span{color:#999;}
-  .concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-  .concept{background:#111;border:0.5px solid #1e1e1e;border-radius:8px;padding:14px;}
-  .num{font-size:10px;color:#333;letter-spacing:1px;margin-bottom:6px;}
-  .ctitle{font-size:13px;color:#bbb;font-weight:500;margin-bottom:8px;}
-  .tags{display:flex;gap:4px;flex-wrap:wrap;}
-  .tag-item{font-size:10px;background:#161616;color:#444;padding:3px 9px;border-radius:20px;}
-  footer{text-align:center;padding:2rem;border-top:0.5px solid #161616;}
-  footer p{font-size:12px;color:#2a2a2a;}
-  @media(max-width:600px){
-    h1{font-size:32px;}
-    .features{grid-template-columns:1fr;}
-    .concepts{grid-template-columns:1fr;}
-    .form{flex-direction:column;}
-    .hero{padding:4rem 1.5rem 3rem;}
-    .features,.demo{margin:0 1rem 3rem;}
-  }
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:#060606;color:#f0f0f0;font-family:'Space Grotesk',sans-serif;overflow-x:hidden;}
+
+/* CURSOR */
+.cursor{width:8px;height:8px;background:#fff;border-radius:50%;position:fixed;pointer-events:none;z-index:9999;mix-blend-mode:difference;transition:transform 0.1s;}
+.cursor-ring{width:36px;height:36px;border:0.5px solid rgba(255,255,255,0.25);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transition:all 0.12s ease;mix-blend-mode:difference;}
+
+/* NAV */
+nav{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 3rem;position:fixed;top:0;width:100%;z-index:100;background:rgba(6,6,6,0.85);backdrop-filter:blur(24px);border-bottom:0.5px solid #0f0f0f;}
+.logo{font-family:'Space Mono',monospace;font-size:15px;font-weight:700;letter-spacing:5px;color:#fff;}
+.nav-right{display:flex;align-items:center;gap:2rem;}
+.nav-link{font-size:11px;color:#2a2a2a;letter-spacing:2px;text-decoration:none;text-transform:uppercase;transition:color 0.3s;font-family:'Space Mono',monospace;}
+.nav-link:hover{color:#888;}
+.nav-badge{font-size:9px;background:transparent;border:0.5px solid #1a1a1a;color:#2a2a2a;padding:6px 16px;border-radius:20px;letter-spacing:3px;font-family:'Space Mono',monospace;}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:0 3rem;}
+#bg-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;}
+.grid-overlay{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.012) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.012) 1px,transparent 1px);background-size:70px 70px;z-index:1;pointer-events:none;}
+.hero-glow{position:absolute;width:900px;height:900px;background:radial-gradient(circle,rgba(255,255,255,0.035) 0%,transparent 65%);top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;pointer-events:none;animation:hglow 5s ease-in-out infinite;}
+@keyframes hglow{0%,100%{opacity:0.6;transform:translate(-50%,-50%) scale(1);}50%{opacity:1;transform:translate(-50%,-50%) scale(1.08);}}
+
+.hero-content{position:relative;z-index:2;text-align:center;max-width:820px;}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:4px;color:#2a2a2a;text-transform:uppercase;margin-bottom:2.5rem;border:0.5px solid #141414;padding:8px 20px;border-radius:30px;font-family:'Space Mono',monospace;backdrop-filter:blur(10px);}
+.live-dot{width:5px;height:5px;background:#4ade80;border-radius:50%;box-shadow:0 0 8px #4ade80;animation:ldot 1.5s infinite;}
+@keyframes ldot{0%,100%{opacity:1;}50%{opacity:0.2;}}
+h1{font-size:74px;font-weight:700;line-height:1.0;color:#fff;margin-bottom:1.5rem;letter-spacing:-3px;}
+h1 .dim{color:#161616;}
+h1 .grad{background:linear-gradient(135deg,#fff 30%,#555 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.sub{font-size:15px;color:#2e2e2e;line-height:2;margin-bottom:3.5rem;max-width:460px;margin-left:auto;margin-right:auto;font-weight:400;}
+
+/* HERO FORM */
+.hero-form-wrap{max-width:440px;margin:0 auto 1.25rem;}
+.hero-form{display:flex;background:#0c0c0c;border:0.5px solid #1a1a1a;border-radius:12px;overflow:hidden;transition:border-color 0.4s,box-shadow 0.4s;}
+.hero-form:focus-within{border-color:#2a2a2a;box-shadow:0 0 50px rgba(255,255,255,0.03);}
+.hero-form input{flex:1;background:transparent;border:none;color:#fff;padding:15px 20px;font-size:13px;outline:none;font-family:'Space Grotesk',sans-serif;}
+.hero-form input::placeholder{color:#1e1e1e;}
+.hero-form button{background:#fff;color:#000;border:none;padding:15px 22px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;letter-spacing:1px;transition:background 0.3s;white-space:nowrap;}
+.hero-form button:hover{background:#ddd;}
+#hero-msg{display:none;font-size:10px;color:#2a2a2a;text-align:center;margin-top:10px;letter-spacing:3px;font-family:'Space Mono',monospace;}
+.hero-proof{font-size:10px;color:#181818;margin-top:8px;letter-spacing:3px;font-family:'Space Mono',monospace;}
+
+/* SCROLL */
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.scroll-hint span{font-size:9px;color:#181818;letter-spacing:4px;font-family:'Space Mono',monospace;}
+.scroll-line{width:0.5px;height:44px;background:linear-gradient(to bottom,#2a2a2a,transparent);animation:sdown 1.8s ease-in-out infinite;}
+@keyframes sdown{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+/* MARQUEE */
+.marquee-wrap{overflow:hidden;border-top:0.5px solid #0a0a0a;border-bottom:0.5px solid #0a0a0a;padding:13px 0;background:#040404;}
+.mtrack{display:flex;animation:mscroll 30s linear infinite;white-space:nowrap;}
+.mtrack span{font-size:9px;color:#181818;letter-spacing:5px;text-transform:uppercase;padding:0 2.5rem;font-family:'Space Mono',monospace;}
+.mtrack span.s{color:#0f0f0f;}
+@keyframes mscroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* DEMO */
+.demo-section{padding:7rem 3rem;position:relative;}
+.s-tag{font-size:9px;letter-spacing:5px;color:#1a1a1a;text-transform:uppercase;font-family:'Space Mono',monospace;margin-bottom:0.75rem;}
+.s-title{font-size:38px;font-weight:700;color:#fff;margin-bottom:3rem;letter-spacing:-1.5px;}
+.s-title span{color:#141414;}
+
+.demo-box{background:#090909;border:0.5px solid #111;border-radius:20px;overflow:hidden;max-width:920px;margin:0 auto;}
+.demo-bar{padding:1rem 1.5rem;border-bottom:0.5px solid #0d0d0d;display:flex;align-items:center;gap:8px;}
+.db{width:10px;height:10px;border-radius:50%;}
+.db.r{background:#ff5f57;} .db.y{background:#ffbd2e;} .db.g{background:#28c840;}
+.bar-title{flex:1;text-align:center;font-size:10px;color:#181818;font-family:'Space Mono',monospace;letter-spacing:3px;}
+
+.demo-inner{padding:2rem;}
+.di-row{display:flex;gap:10px;margin-bottom:1.5rem;}
+.di{flex:1;background:#060606;border:0.5px solid #141414;border-radius:10px;padding:14px 18px;color:#fff;font-size:13px;font-family:'Space Grotesk',sans-serif;outline:none;transition:border-color 0.3s;}
+.di:focus{border-color:#222;}
+.di::placeholder{color:#181818;}
+.gen-btn{background:#fff;color:#000;border:none;padding:14px 24px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;letter-spacing:1px;transition:all 0.3s;white-space:nowrap;}
+.gen-btn:hover{background:#e0e0e0;transform:translateY(-1px);}
+.gen-btn:disabled{background:#111;color:#222;cursor:not-allowed;transform:none;}
+
+.demo-placeholder{text-align:center;padding:3.5rem;color:#141414;font-size:10px;font-family:'Space Mono',monospace;letter-spacing:3px;}
+
+/* LOADING */
+.loading-state{display:none;padding:3rem;text-align:center;}
+.loading-state.show{display:block;}
+.loading-dots{display:flex;justify-content:center;gap:8px;margin-bottom:1rem;}
+.ld{width:5px;height:5px;background:#222;border-radius:50%;animation:ldots 1.2s ease-in-out infinite;}
+.ld:nth-child(2){animation-delay:0.2s;}
+.ld:nth-child(3){animation-delay:0.4s;}
+@keyframes ldots{0%,80%,100%{transform:scale(0.6);opacity:0.3;}40%{transform:scale(1);opacity:1;}}
+.loading-text{font-size:10px;color:#1e1e1e;letter-spacing:4px;font-family:'Space Mono',monospace;}
+
+/* RESULTS */
+.results-grid{display:none;grid-template-columns:repeat(3,1fr);gap:10px;}
+.results-grid.show{display:grid;animation:fadeup 0.6s ease;}
+@keyframes fadeup{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+.c-card{background:#060606;border:0.5px solid #111;border-radius:12px;padding:1.5rem;transition:border-color 0.3s,transform 0.3s;}
+.c-card:hover{border-color:#1e1e1e;transform:translateY(-3px);}
+.c-num{font-size:9px;color:#181818;letter-spacing:3px;font-family:'Space Mono',monospace;margin-bottom:10px;}
+.c-name{font-size:19px;font-weight:700;color:#ddd;margin-bottom:8px;letter-spacing:-0.5px;}
+.c-desc{font-size:11px;color:#2a2a2a;line-height:1.8;margin-bottom:14px;}
+.c-tags{display:flex;gap:5px;flex-wrap:wrap;}
+.c-tag{font-size:9px;background:#0d0d0d;color:#222;padding:4px 10px;border-radius:20px;border:0.5px solid #111;font-family:'Space Mono',monospace;letter-spacing:1px;}
+
+/* FEATURES */
+.feat-section{padding:2rem 3rem 7rem;}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#0a0a0a;border-radius:20px;overflow:hidden;border:0.5px solid #0a0a0a;max-width:920px;margin:0 auto;}
+.feat{background:#080808;padding:2.5rem 2rem;transition:background 0.4s;}
+.feat:hover{background:#0b0b0b;}
+.feat-n{font-size:9px;color:#141414;letter-spacing:3px;font-family:'Space Mono',monospace;margin-bottom:1.5rem;}
+.feat h3{font-size:14px;font-weight:600;color:#555;margin-bottom:0.75rem;letter-spacing:-0.3px;}
+.feat p{font-size:12px;color:#222;line-height:1.9;}
+
+/* CTA */
+.cta{padding:7rem 3rem;text-align:center;position:relative;overflow:hidden;}
+.cta-glow{position:absolute;width:700px;height:700px;background:radial-gradient(circle,rgba(255,255,255,0.025) 0%,transparent 60%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.cta h2{font-size:52px;font-weight:700;color:#fff;margin-bottom:1rem;letter-spacing:-2px;}
+.cta h2 span{color:#141414;}
+.cta p{font-size:14px;color:#1e1e1e;margin-bottom:3rem;font-family:'Space Mono',monospace;letter-spacing:2px;}
+.cta-form{display:flex;background:#0c0c0c;border:0.5px solid #161616;border-radius:12px;overflow:hidden;max-width:420px;margin:0 auto;transition:border-color 0.3s;}
+.cta-form:focus-within{border-color:#2a2a2a;}
+.cta-form input{flex:1;background:transparent;border:none;color:#fff;padding:16px 20px;font-size:13px;outline:none;font-family:'Space Grotesk',sans-serif;}
+.cta-form input::placeholder{color:#181818;}
+.cta-form button{background:#fff;color:#000;border:none;padding:16px 24px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Space Mono',monospace;letter-spacing:1px;transition:background 0.3s;}
+.cta-form button:hover{background:#ddd;}
+#cta-msg{display:none;font-size:10px;color:#2a2a2a;margin-top:12px;letter-spacing:3px;font-family:'Space Mono',monospace;}
+
+/* FOOTER */
+footer{padding:2.5rem 3rem;border-top:0.5px solid #0a0a0a;display:flex;justify-content:space-between;align-items:center;}
+.f-logo{font-family:'Space Mono',monospace;font-size:12px;color:#141414;letter-spacing:4px;}
+.f-text{font-size:9px;color:#0f0f0f;letter-spacing:3px;font-family:'Space Mono',monospace;}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.9s ease,transform 0.9s ease;}
+.reveal.on{opacity:1;transform:translateY(0);}
+
+@media(max-width:768px){
+  h1{font-size:38px;letter-spacing:-2px;}
+  nav{padding:1.25rem 1.5rem;}
+  .hero{padding:0 1.5rem;}
+  .demo-section,.feat-section,.cta{padding:4rem 1.5rem;}
+  .feat-grid{grid-template-columns:1fr;}
+  .results-grid{grid-template-columns:1fr;}
+  .di-row{flex-direction:column;}
+  footer{flex-direction:column;gap:1rem;text-align:center;}
+  .cursor,.cursor-ring{display:none;}
+}
 </style>
 </head>
 <body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="cur-ring"></div>
+
 <nav>
   <div class="logo">KNCPT</div>
-  <div class="badge">early access</div>
+  <div class="nav-right">
+    <a href="#demo" class="nav-link">Try demo</a>
+    <a href="#waitlist" class="nav-link">Join waitlist</a>
+    <div class="nav-badge">EARLY ACCESS</div>
+  </div>
 </nav>
-<div class="hero">
-  <div class="tag">AI for streetwear designers</div>
-  <h1>Your concept.<br><span>Faster than ever.</span></h1>
-  <p class="sub">Stop spending hours on Pinterest. Type your vibe — Kncpt generates streetwear-specific concepts, graphics direction, and trend insights instantly.</p>
-  <div class="form">
-    <input type="email" id="email" placeholder="your@email.com" />
-    <button onclick="join()">Join waitlist</button>
-  </div>
-  <div id="msg">you're in. we'll hit you when it drops. 🤝</div>
-  <p class="count" id="cnt">join 12 designers already waiting</p>
-</div>
-<div class="features">
-  <div class="feat">
-    <div class="icon">💡</div>
-    <h3>Concept generator</h3>
-    <p>Type your vibe, get 5 streetwear-specific concept directions in seconds. No more blank page.</p>
-  </div>
-  <div class="feat">
-    <div class="icon">📈</div>
-    <h3>Trend radar</h3>
-    <p>Real-time streetwear trends from Instagram, Grailed and TikTok. Not generic fashion noise.</p>
-  </div>
-  <div class="feat">
-    <div class="icon">✍️</div>
-    <h3>Typography match</h3>
-    <p>AI picks fonts that match your concept's energy. No more wasted hours font hunting.</p>
-  </div>
-</div>
-<div class="demo">
-  <div class="demo-label">see it in action</div>
-  <div class="prompt">
-    <p>prompt: <span>"dark Japanese hoodie, rebellious, oversized"</span></p>
-  </div>
-  <div class="concepts">
-    <div class="concept">
-      <div class="num">01</div>
-      <div class="ctitle">Void Samurai</div>
-      <div class="tags">
-        <span class="tag-item">washed black</span>
-        <span class="tag-item">kanji</span>
-        <span class="tag-item">distressed</span>
+
+<section class="hero">
+  <canvas id="bg-canvas"></canvas>
+  <div class="grid-overlay"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content reveal">
+    <div class="eyebrow"><span class="live-dot"></span>AI FOR STREETWEAR DESIGNERS</div>
+    <h1><span class="grad">Your concept.</span><br><span class="dim">Faster than ever.</span></h1>
+    <p class="sub">Stop wasting hours on Pinterest. Type your vibe — Kncpt generates streetwear-specific concepts, graphics direction, and trend insights instantly.</p>
+    <div class="hero-form-wrap">
+      <div class="hero-form">
+        <input type="email" id="hero-email" placeholder="your@email.com"/>
+        <button onclick="joinHero()">JOIN WAITLIST →</button>
       </div>
-    </div>
-    <div class="concept">
-      <div class="num">02</div>
-      <div class="ctitle">Silent Riot</div>
-      <div class="tags">
-        <span class="tag-item">charcoal</span>
-        <span class="tag-item">grunge type</span>
-        <span class="tag-item">raw hem</span>
-      </div>
-    </div>
-    <div class="concept">
-      <div class="num">03</div>
-      <div class="ctitle">Ghost District</div>
-      <div class="tags">
-        <span class="tag-item">off-black</span>
-        <span class="tag-item">minimal</span>
-        <span class="tag-item">tonal print</span>
-      </div>
+      <div id="hero-msg">YOU'RE IN. WE'LL HIT YOU WHEN IT DROPS. 🤝</div>
+      <p class="hero-proof" id="hcnt">JOIN 12 DESIGNERS ALREADY WAITING</p>
     </div>
   </div>
+  <div class="scroll-hint">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="marquee-wrap">
+  <div class="mtrack">
+    <span>CONCEPT GENERATION</span><span class="s">·</span><span>TREND RADAR</span><span class="s">·</span><span>TYPOGRAPHY MATCH</span><span class="s">·</span><span>DROP TIMING</span><span class="s">·</span><span>COLOR PALETTE AI</span><span class="s">·</span><span>STREETWEAR SPECIFIC</span><span class="s">·</span><span>GRAPHIC DIRECTION</span><span class="s">·</span><span>CONCEPT GENERATION</span><span class="s">·</span><span>TREND RADAR</span><span class="s">·</span><span>TYPOGRAPHY MATCH</span><span class="s">·</span><span>DROP TIMING</span><span class="s">·</span><span>COLOR PALETTE AI</span><span class="s">·</span><span>STREETWEAR SPECIFIC</span><span class="s">·</span><span>GRAPHIC DIRECTION</span><span class="s">·</span>
+  </div>
 </div>
+
+<section class="demo-section" id="demo">
+  <div class="reveal">
+    <div class="s-tag">// LIVE DEMO</div>
+    <div class="s-title">Try it <span>right now.</span></div>
+  </div>
+  <div class="demo-box reveal">
+    <div class="demo-bar">
+      <div class="db r"></div><div class="db y"></div><div class="db g"></div>
+      <div class="bar-title">KNCPT.AI — CONCEPT GENERATOR</div>
+    </div>
+    <div class="demo-inner">
+      <div class="di-row">
+        <input class="di" id="di" placeholder="describe your vibe... (e.g. dark japanese hoodie, rebellious, oversized)"/>
+        <button class="gen-btn" id="gbtn" onclick="generate()">GENERATE →</button>
+      </div>
+      <div class="demo-placeholder" id="dp">TYPE YOUR VIBE ABOVE AND HIT GENERATE</div>
+      <div class="loading-state" id="ls">
+        <div class="loading-dots"><div class="ld"></div><div class="ld"></div><div class="ld"></div></div>
+        <div class="loading-text">GENERATING CONCEPTS...</div>
+      </div>
+      <div class="results-grid" id="rg"></div>
+    </div>
+  </div>
+</section>
+
+<section class="feat-section">
+  <div class="feat-grid reveal">
+    <div class="feat"><div class="feat-n">01 ——</div><h3>Concept generator</h3><p>Type your vibe, get streetwear-specific concept directions in seconds. No more blank page paralysis.</p></div>
+    <div class="feat"><div class="feat-n">02 ——</div><h3>Trend radar</h3><p>Real-time streetwear trends from Instagram, Grailed and TikTok. Not generic fashion noise.</p></div>
+    <div class="feat"><div class="feat-n">03 ——</div><h3>Typography match</h3><p>AI picks fonts that match your concept's energy. No more wasted hours font hunting.</p></div>
+  </div>
+</section>
+
+<section class="cta" id="waitlist">
+  <div class="cta-glow"></div>
+  <div class="reveal">
+    <h2>Be first.<br><span>Join the waitlist.</span></h2>
+    <p>EARLY ACCESS DROPS SOON. LIMITED SPOTS.</p>
+    <div class="cta-form">
+      <input type="email" id="cta-email" placeholder="your@email.com"/>
+      <button onclick="joinCta()">JOIN →</button>
+    </div>
+    <div id="cta-msg">YOU'RE IN. 🤝</div>
+  </div>
+</section>
+
 <footer>
-  <p>kncpt.ai — built for designers, by a designer.</p>
+  <div class="f-logo">KNCPT</div>
+  <div class="f-text">BUILT FOR DESIGNERS, BY A DESIGNER.</div>
 </footer>
+
 <script>
-  let n=12;
-  function join(){
-    const e=document.getElementById('email').value;
-    if(!e||!e.includes('@')){document.getElementById('email').style.borderColor='#444';return;}
-    n++;
-    document.getElementById('cnt').textContent='join '+n+' designers already waiting';
-    document.getElementById('email').value='';
-    document.getElementById('msg').style.display='block';
+// CURSOR
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+document.addEventListener('mousemove',e=>{
+  cur.style.cssText+=`left:${e.clientX-4}px;top:${e.clientY-4}px;`;
+  ring.style.cssText+=`left:${e.clientX-18}px;top:${e.clientY-18}px;`;
+});
+
+// PARTICLES
+const cv=document.getElementById('bg-canvas'),cx=cv.getContext('2d');
+function resize(){cv.width=window.innerWidth;cv.height=window.innerHeight;}
+resize();window.addEventListener('resize',resize);
+const pts=Array.from({length:90},()=>({
+  x:Math.random()*cv.width,y:Math.random()*cv.height,
+  vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,
+  r:Math.random()*1.2+.3,o:Math.random()*.35+.05
+}));
+function draw(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  pts.forEach(p=>{
+    cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    cx.fillStyle=`rgba(255,255,255,${p.o})`;cx.fill();
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>cv.width)p.vx*=-1;
+    if(p.y<0||p.y>cv.height)p.vy*=-1;
+  });
+  pts.forEach((p,i)=>pts.slice(i+1).forEach(q=>{
+    const d=Math.hypot(p.x-q.x,p.y-q.y);
+    if(d<130){cx.beginPath();cx.moveTo(p.x,p.y);cx.lineTo(q.x,q.y);
+    cx.strokeStyle=`rgba(255,255,255,${.025*(1-d/130)})`;cx.lineWidth=.4;cx.stroke();}
+  }));
+  requestAnimationFrame(draw);
+}
+draw();
+
+// AI GENERATE
+async function generate(){
+  const input=document.getElementById('di').value.trim();
+  if(!input)return;
+  const btn=document.getElementById('gbtn');
+  btn.disabled=true;btn.textContent='GENERATING...';
+  document.getElementById('dp').style.display='none';
+  document.getElementById('rg').classList.remove('show');
+  document.getElementById('ls').classList.add('show');
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':'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','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',
+        max_tokens:1000,
+        messages:[{role:'user',content:`You are a streetwear design AI. Generate exactly 3 streetwear concept ideas based on this vibe: "${input}". 
+        
+Respond ONLY with valid JSON array, no markdown, no explanation:
+[
+  {"name":"Concept Name","desc":"2 sentence description of the design concept","tags":["tag1","tag2","tag3","tag4"]},
+  {"name":"Concept Name","desc":"2 sentence description","tags":["tag1","tag2","tag3","tag4"]},
+  {"name":"Concept Name","desc":"2 sentence description","tags":["tag1","tag2","tag3","tag4"]}
+]`}]
+      })
+    });
+    const data=await res.json();
+    const text=data.content[0].text;
+    const concepts=JSON.parse(text.replace(/```json|```/g,'').trim());
+    showConcepts(concepts);
+  }catch(e){
+    // fallback
+    showConcepts(getFallback(input));
   }
+
+  document.getElementById('ls').classList.remove('show');
+  btn.disabled=false;btn.textContent='GENERATE →';
+}
+
+function showConcepts(concepts){
+  const html=concepts.map((c,i)=>`
+    <div class="c-card">
+      <div class="c-num">CONCEPT 0${i+1}</div>
+      <div class="c-name">${c.name}</div>
+      <div class="c-desc">${c.desc}</div>
+      <div class="c-tags">${c.tags.map(t=>`<span class="c-tag">${t}</span>`).join('')}</div>
+    </div>`).join('');
+  document.getElementById('rg').innerHTML=html;
+  document.getElementById('rg').classList.add('show');
+}
+
+function getFallback(input){
+  return[
+    {name:'Void State',desc:'Dark oversized silhouette with washed-out tonal graphics. Distressed hem details add raw authenticity.',tags:['washed black','tonal','oversized','distressed']},
+    {name:'Silent Cut',desc:'Minimal construction with architectural proportions. Clean lines speak louder than graphics.',tags:['minimal','structured','clean','premium']},
+    {name:'Raw Signal',desc:'Deconstructed approach celebrating the design process. Exposed seams as intentional detail.',tags:['deconstructed','raw','authentic','cultural']}
+  ];
+}
+
+document.getElementById('di').addEventListener('keydown',e=>{if(e.key==='Enter')generate();});
+
+// WAITLIST
+const TALLY_URL='https://tally.so/r/xXg1No';
+let n=12;
+function joinHero(){
+  const e=document.getElementById('hero-email').value;
+  if(!e||!e.includes('@'))return;
+  n++;document.getElementById('hcnt').textContent='JOIN '+n+' DESIGNERS ALREADY WAITING';
+  document.getElementById('hero-msg').style.display='block';
+  setTimeout(()=>{window.open(TALLY_URL+'?email='+encodeURIComponent(e),'_blank');},600);
+}
+function joinCta(){
+  const e=document.getElementById('cta-email').value;
+  if(!e||!e.includes('@'))return;
+  n++;document.getElementById('cta-msg').style.display='block';
+  setTimeout(()=>{window.open(TALLY_URL+'?email='+encodeURIComponent(e),'_blank');},600);
+}
+
+// REVEAL
+const ob=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>ob.observe(el));
+setTimeout(()=>document.querySelector('.hero .reveal').classList.add('on'),150);
 </script>
 </body>
 </html>
